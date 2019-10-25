@@ -1,0 +1,345 @@
+回调函数，参数为函数
+比如：排序
+sort(arr, compare){
+	if(!compare){//如果compare没有值，默认按这种方法比较
+		compare = function(a,b){
+			...
+		}
+	}
+	for(var i = 1; i < arr.lengt; i ++){
+		for(var j = 0; j < arr.length - i; j ++){
+			if(compare(arr[j], arr[j + 1])){
+				var temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
+}
+Myfunctions.sort(arr,function(a, b){
+	return a-b;
+});
+
+构造函数 <<用来构造对象>>
+自己写一个：
+function createUser(){
+	return {
+		...对象
+	}
+}
+用构造函数构造对象
+相当于将this指向new出来的对象
+function User(name, age){
+	this.name = name;
+	this.age = age;
+}
+
+所有对象都是通过构造函数构造的
+如：var obj = {
+	name:"hhr",
+	sex:"男"
+}
+实质上是这样的：
+var obj = new Object();
+obj.name="hhr";
+obj.sex="男";
+
+可以通过new Array();创建一个数组
+函数本质上就是对象：因此
+function sum(a, b){
+	return a+b;
+}
+实质上是：var sum = new Function("a","b","return a+b")
+
+
+dom中所有节点类型
+DocumentType,文档类型节点
+Dcument,注释节点
+Element,元素节点
+Text,文本节点
+Attribute,属性节点
+DocumentFragment, document.createDocumentFragment() 文档片段节点
+
+
+旧的方式获取元素节点
+documentElement获取根节点 = html
+document.body:获取body元素节点
+document.head:获取head元素节点
+document.links:获取页面上所有超链接元素节点，类数组
+document.anchors:获取页面上所有锚链接
+document.forms:获取页面上所有form元素节点
+
+新方式获取元素节点
+document.getElementById()；
+document.getElementsByTagName();
+document.getElementsByClassName();
+document.getElementsByName();
+document.querySelector();非实时，类数组
+document.querySelectorAll();非实时，类数组
+
+元素是节点，但节点不全是元素
+
+通过节点关系获取节点
+parentNode:获取父节点
+previousSibling:获取上一个兄弟节点
+nextSibling:获取下一个兄弟节点
+chailNodes:获取所有子节点
+firstChild:获取第一个子节点
+lastChild:获取最后一个子节点
+atrributes：获取某个元素的属性节点，类数组
+
+获取元素节点
+parentElement:获取父元素节点
+previousElementsibling:获取上一个兄弟元素节点
+nextElementSibling:获取下一个兄弟元素节点
+children:获取所有子元素节点
+firstElementChild:获取第一个子元素节点
+lastElementChild:获取最后一个子元素
+
+
+
+元素节点名称全是大写
+
+innerHtml:获取和设置元素的内部html文本
+innerText:获取和设置内部的纯文本
+textContent:获取和设置元素内部所有的纯文本
+contenteditable="true"元素内容可编辑
+
+元素结构重构
+父元素.appendChild(元素)：在某个元素末尾加入一个子元素
+父元素.insertBefore(待插入的元素，哪个元素之前)
+父元素.replaceChild(替换的元素，被替换的元素)
+
+创建元素和删除元素
+document.createElement("元素名")：创建一个元素对象
+document.createTextNode("文本")：创建文本节点
+document.cteateDocumentFragment():创建文档片段
+
+dom对象.cloneNode(是否深度克隆)
+
+父节点.removeChild(子元素节点):删除子节点元素
+子元素.remove()：删除自己
+
+控制dom元素的类样式
+className:获取和设置元素的类名
+classList:dom4的新属性
+	add():用于添加一个类名
+	remove:用于移除一个类名
+	contains:判断一个类名是否存在
+	toggle:添加或者移除一个类名，它会自行判断是否有类名，有就移除，没有就加
+
+直接操作行间样式的style样式
+dom对象.style:得到行间样式对象：如float对象，然互殴直接复制
+window.getComputedStyle(dom元素对象)：得到某个元素最终计算的样式
+window.getComputedStyle(dom元素对象，“before”);得到伪元素before
+
+设置样式：dom.style.样式名 = 值；
+
+创建自定义属性:（dom对象.dataset.属性名 / dom对象.setAttribute("data-v","value");）
+删除自定义属性:（delete dom.dataset.属性名 / removeAttribute("属性名")）
+获取自定义属性:（testEle.getAttribute("data-") / dom对象.dataset.属性）
+
+克隆元素：dom对象.cloneNode(是否就深度克隆) -复制一个新的dom对象并返回
+
+事件注册
+
+dom0:dom对象.on事件名称,作为dom的属性名，给给属性赋值一个函数
+移除:重新给事件属性赋值，通常赋值为null,undefined
+
+dom2:dom对象.addEventListener >可处理多个事件程序
+如：dom对象.addEventListener("事件名称",function(){console.log(1)}, [boolean"true表示捕获阶段运行"])
+dom对象.addEventListener("事件名称",function(){console.log(2)}, [boolean"flase表示冒泡阶段运行"])
+也可以这么写：dom对象.addEventListener("事件名称",function(){console.log(2)}, {
+	capture:true “捕获阶段”
+	once:true: "表示是否只运行一次，默认为false"
+})
+如果是事件源，则第三个参数无效
+移除：dom对象.removeEventListener(事件名，处理函数名，[boolean]默认为false"冒泡")；不能用匿名函数作为参数，需要将函数写到外边，然后添加进去。
+
+事件对象：事件对象封装了事件的相关信息
+
+获取事件对象
+1.通过事件处理函数参数获取
+2.旧版本的ie浏览器通过window.event获取
+
+事件对象的通用成员：
+1. target & srcElement (ie)（事件源）
+2. currentTarget === this
+3. type (得到事件的类型 )
+4. preventDefault & returnValue(ie) (阻止浏览器默认事件行为)e.preventDefault
+5. stopPropagation 阻止事件冒泡 e.stopPropagation 
+6. eventPhase (获取事件的阶段)
+	e.eventPhase === 1表示捕获阶段
+	e.eventPhase === 2表示目标阶段
+	e.eventPhase === 3表示冒泡阶段
+
+
+
+
+事件类型之鼠标事件
+1.click:点击事件
+2.dblclick:双击事件
+3.mousedown：鼠标按下事件
+4.mouseup:鼠标抬起事件
+5.mousemove:鼠标在元素上移动时触发
+6.mouseover:鼠标进入元素时触发。考虑子元素，从父元素移动到子元素，算离开，也算进入子元素
+7.mouseout:鼠标离开元素时触发
+8.mouseenter:鼠标进入元素时触发，事件不会冒泡
+9.mouseleave:鼠标离开元素时触发，事件不会冒泡。不考虑子元素，子元素也算自己的一部分
+
+
+事件对象：
+所有的鼠标事件，都为MouseEvent
+1. e.altKey:触发事件时，是否按下键盘的alt键
+2.ctrlKey:触发事件时，是否按下键盘的ctrl键
+3.shiftKey:触发事件时，是否按下shift键盘
+4.button:触发事件时，鼠标按键类型：
+	0：左键
+	1：中键
+	2：右键
+ 
+
+获取光标位置
+	page:pageX,pageY:当鼠标距离页面的横纵坐标
+	client:clientX,clientY:鼠标相对于视口的坐标
+	offset:offsetX,offsetY:鼠标相对于事件源的内边距的坐标
+	screen:screenX,screenY:鼠标相对于屏幕的坐标
+	x,y:等同于clientX,clientY
+	movement:movementX,movementY:相对于上一次鼠标位置的坐标（只在鼠标移动事件中有效）
+
+
+
+键盘事件
+1.keydown:按下键盘上任意键触发，如果按住不放，会持续触发
+2.keypress:按下键盘上*字符键*触发（需要得到反馈的键）
+3.keyup:抬起任意键触发
+
+事件对象
+e.key:得到按键字符串，不适配键盘布局，得到打印字符
+e.code:得到按键字符串，适配键盘布局
+e.keyCode、which:得到键盘编码
+
+
+
+表单事件
+1.focus:元素聚焦的时候触发（能与用户发生交互的元素才可以聚焦），该事件不会冒泡
+2.blur:元素失去焦点时触发，该事件不会冒泡
+3.submit:提交表单事件，仅在form元素有效
+4.change:文本改变事件
+5.input:文本改变事件，即时触发
+
+window事件
+1.load:等待页面所有资源加载（同步）完后触发的事件，或者给某张图片（异步），音频，视频等对象绑定事件，表示等待该图片加载完后执行的事件
+2.DOMcontentLoaded : document的事件，只能这样绑定document.addEventListener("DOMContentLoaded",function(){}),表示加载完dom数后要执行的事件
+3.readystatechange: 当页面状态加载过程中发生改变时触发的事件
+4.unload
+5.beforeunload
+	unload 和beforeunload 都是window事件，关闭窗口时运行，先触发beforeunload,再到unload,谷歌浏览器无效，直接返回字符串即可
+6.scroll:当发生滚动条被滚动时触发，只要有滚动条的对象，都可绑定该事件。可以通过scrollTop和scrollLeft获取或设置对象的滚动高度
+7.resize:窗口尺寸发生改变时触发的事件，监听的是视口窗口
+8.contextmenu：右键菜单事件
+
+
+其他事件
+1.paste: 粘贴事件
+2.copy:复制事件
+3.cut：剪切事件
+
+
+页面加载三大状态
+doucument.readyState
+1.loading 正在加载资源中
+2.interactive 加载完成dom树
+3.complete 加载完成所有资源
+
+
+
+计时器
+setTimeout：指定时间到达运行某个函数
+clearTimeout：清楚计时器
+setInterval：指定间隔时间到达后运行某个函数，循环
+clearInterval：清除计时器
+
+
+多个js文件只污染一个全局变量
+if(!window.myobj){
+	window.myobj = {}
+}
+window.myobj = (function(){
+	function f1(){}
+	function f2(){}
+	...
+	return f1;
+}())
+
+
+
+
+类数组转换成真数组
+1.Array.from(类数组)
+2.Array.prototype.slice.call(类数组)
+
+
+对象继承
+son.prototype = Object.create(father.prototype);
+son.prototype.constructor = son;
+son.prototype.uber = father.prototype;
+
+
+
+
+属性描述符
+function User(name,age){
+	this.name = name;
+	var _age;
+	Object.defineProperty(this,"age",{
+		get:function(){
+			return _age;
+		}
+
+		set:function(val){
+			if(val < 0){
+				val = 0;
+			}
+			_age = 100;
+		}
+	})
+}
+//表示给某个Obj对象的age属性赋值时限制条件
+Object.defineProperty(Obj,"age",{
+	get:function(){
+		return _age;//this.age = this._age
+		}
+
+	set:function(val){
+		if(val < 0){
+			val = 0;
+		}
+		this._age = val;
+	}
+})
+
+
+
+执行上下文
+<script></script>和函数运行时会开辟执行上下文
+执行上下文内容
+1.this的指向
+1）直接调用函数，this指向全局
+2）在函数外，this指向全局
+3）通过对象调用或new一个函数，this指向调用的对象或新对象
+
+2.vo:记录该上下文中所有变量，函数，参数的声明
+1）确定所有的形参和特殊参arguments
+2）确定var声明的所有变量，将他们的值设为undefined,当变量与参数有所冲突时，忽略该变量
+3）确定函数中通过字面量声明的函数，如：function test(){}
+
+
+
+作用域链
+<script>//GO
+	function test(){//AO
+	}
+<script>
+
+包含关系：GO--->test声明--->[[scope指向GO]]
